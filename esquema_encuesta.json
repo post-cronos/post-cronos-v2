@@ -1,0 +1,21 @@
+{
+  "participante": {
+    "nombre": "string",
+    "edad": "integer",
+    "genero": "string",
+    "lugar": "string"
+  },
+  "fecha": "date",
+  "unlock": {
+    "dibujo_2060": "string (url GCS)"
+  },
+  "dialogue": {
+    "socio_creativo": "persona | ia",
+    "eje": "Moda | Tecnología | Mobiliario | Educación | Herramientas | Salud | Comunicación | Otro",
+    "eje_otro_texto": "string (solo si eje=Otro)",
+    "interpretacion": "string"
+  },
+  "synthesis": {
+    "diseno_final": "string"
+  }
+}

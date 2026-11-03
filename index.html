@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Post-Cronos: Córdoba 2060</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--bg2:#111111;--card:#141414;--card2:#1a1a1a;--border:#262626;--text:#fff;--dim:#9a9a9a;--accent:#6ec1e4}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);color-scheme:dark}
+header{background:#000;border-bottom:1px solid #1a1a1a;color:#fff;padding:48px 20px 44px;position:relative}
+.logo{position:absolute;top:20px;left:24px;max-height:88px;width:auto}
+.header-text{text-align:center;max-width:1000px;margin:0 auto}
+header h1{font-size:4rem;font-weight:800;letter-spacing:-1px;line-height:1.1}
+header p{font-size:1.2rem;color:var(--dim);margin-top:10px}
+@media(max-width:600px){.logo{max-height:60px;top:12px;left:12px}header{padding-top:76px}}
+nav{display:flex;justify-content:center;gap:8px;padding:14px 20px;background:rgba(10,10,10,.9);backdrop-filter:blur(6px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
+nav button{padding:10px 24px;border:1px solid var(--border);border-radius:10px;font-size:.9rem;font-family:inherit;font-weight:600;background:var(--card);color:var(--dim);cursor:pointer;transition:all .2s}
+nav button:hover{border-color:var(--accent);color:var(--accent)}
+nav button.active{background:var(--accent);border-color:var(--accent);color:#000}
+section{display:none;max-width:1400px;margin:0 auto;padding:20px}
+section.active{display:block}
+.filters{display:flex;gap:12px;justify-content:center;padding:8px 0 20px;flex-wrap:wrap}
+.filters select,.filters input{padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-size:.9rem;font-family:inherit;background:var(--card);color:var(--text);min-width:160px;cursor:pointer;transition:border-color .2s}
+.filters select:focus,.filters input:focus{outline:none;border-color:var(--accent)}
+.stats{display:flex;gap:16px;justify-content:center;padding:10px 0 20px;flex-wrap:wrap}
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 28px;text-align:center;min-width:120px}
+.stat-card h3{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.stat-card p{font-size:.8rem;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-top:2px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(400px,1fr));gap:20px}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px}
+.chart-card h2{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:14px;padding-left:12px;border-left:4px solid var(--accent)}
+.chart-wrap{position:relative;height:320px}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;overflow-x:auto}
+.table-wrap h2{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:14px;padding-left:12px;border-left:4px solid var(--accent)}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+th{font-size:.72rem;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);background:var(--bg2)}
+tbody tr:hover{background:var(--card2)}
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:20px;padding:10px 0}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.card-img{width:100%;height:520px;object-fit:contain;background:#0a0a0a;display:block}
+.card-body{padding:18px}
+.card-header{display:flex;justify-content:space-between;align-items:start;margin-bottom:8px}
+.card-name{font-size:1.15rem;font-weight:700;color:var(--text)}
+.card-badges{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.75rem;font-weight:500;background:#1a1a1a;border:1px solid #2a2a2a;color:#c5c5c5}
+.badge-eje{color:var(--accent);border-color:#2c3a42}
+.card-desc{font-size:.85rem;color:#c5c8cc;line-height:1.5;margin:8px 0}
+.card-desc strong{color:var(--text)}
+.card-interp{font-size:.82rem;color:#c5c8cc;line-height:1.5;background:var(--card2);border-radius:8px;padding:10px;margin-top:8px;border-left:3px solid var(--accent)}
+footer{text-align:center;padding:30px;color:var(--dim);font-size:.85rem}
+.no-results{text-align:center;padding:60px 20px;color:var(--dim);font-size:1.1rem;grid-column:1/-1}
+.ai-panel{background:#111111;border:1px solid var(--border);color:var(--text);border-radius:16px;padding:24px;margin:10px 0 20px}
+.ai-panel h2{font-size:1.1rem;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ai-badge{background:#1a1a1a;border:1px solid #2c3a42;color:var(--accent);font-size:.65rem;text-transform:uppercase;letter-spacing:1px;padding:3px 8px;border-radius:20px}
+.ai-general{font-size:.95rem;line-height:1.6;color:#c5c8cc;margin:12px 0 18px}
+.ai-sub{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--dim);margin:16px 0 8px}
+.ai-trends{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.ai-trend{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:14px}
+.ai-trend h4{font-size:.9rem;font-weight:700;color:var(--accent);margin-bottom:6px}
+.ai-trend p{font-size:.82rem;line-height:1.5;color:#c5c8cc}
+.ai-examples{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.ai-example{font-size:.7rem;background:#1a1a1a;border:1px solid #2c3a42;color:var(--accent);padding:2px 8px;border-radius:12px}
+.ai-insights{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.ai-insight{background:var(--bg2);border-radius:10px;padding:12px;border-left:3px solid var(--accent)}
+.ai-insight strong{display:block;font-size:.8rem;color:var(--accent);margin-bottom:4px}
+.ai-insight span{font-size:.8rem;line-height:1.5;color:#c5c8cc}
+.ai-reco{list-style:none;display:flex;flex-direction:column;gap:8px}
+.ai-reco li{font-size:.85rem;line-height:1.5;background:var(--bg2);border-radius:10px;padding:10px 14px;display:flex;gap:10px;color:#c5c8cc}
+.ai-reco li::before{content:'•';color:var(--accent);font-weight:800}
+.upload-wrap{max-width:680px;margin:20px auto;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px}
+.upload-wrap h2{font-size:1.2rem;font-weight:800;margin-bottom:6px}
+.upload-wrap>p{font-size:.9rem;color:var(--dim);line-height:1.5;margin-bottom:18px}
+.drop-zone{border:2px dashed var(--border);border-radius:14px;padding:40px 20px;text-align:center;background:var(--bg2);cursor:pointer;transition:border-color .2s,background .2s}
+.drop-zone.drag{border-color:var(--accent);background:#0f1a20}
+.drop-zone p{font-size:.9rem;color:var(--dim);line-height:1.6}
+.link-btn{background:none;border:none;color:var(--accent);font:inherit;font-weight:600;cursor:pointer;text-decoration:underline}
+.upload-preview{display:flex;justify-content:center;margin:16px 0}
+.upload-preview img{max-height:280px;max-width:100%;border-radius:12px;border:1px solid var(--border)}
+.upload-field{display:flex;flex-direction:column;gap:6px;margin:14px 0;font-size:.8rem;color:var(--dim);text-transform:uppercase;letter-spacing:.4px}
+.upload-field input{padding:10px 14px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);font-family:inherit;font-size:.9rem}
+.upload-field input:focus{outline:none;border-color:var(--accent)}
+.upload-btn{width:100%;padding:14px;border:none;border-radius:12px;background:var(--accent);color:#000;font-family:inherit;font-weight:700;font-size:1rem;cursor:pointer;transition:opacity .2s}
+.upload-btn:disabled{opacity:.45;cursor:not-allowed}
+.upload-status{margin-top:14px;font-size:.85rem;line-height:1.5;color:var(--dim);min-height:20px}
+.upload-status.ok{color:#7ee2a8}
+.upload-status.err{color:#ff8a8a}
+.upload-progress{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-top:12px;display:none}
+.upload-progress.show{display:block}
+.upload-progress span{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+@media(max-width:600px){.charts{grid-template-columns:1fr}.gallery{grid-template-columns:1fr}.ai-trends{grid-template-columns:1fr}.ai-insights{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <img class="logo" src="logo.png" alt="Post-Cronos">
+  <div class="header-text">
+    <h1>Post-Cronos</h1>
+    <p>Córdoba del año 2060 · Visualizaciones de niños y adolescentes</p>
+  </div>
+</header>
+
+<nav>
+  <button class="active" data-view="dashboard" onclick="switchView('dashboard')">Dashboard</button>
+  <button data-view="galeria" onclick="switchView('galeria')">Galería de dibujos</button>
+  <button data-view="subir" onclick="switchView('subir')">Subir dibujo</button>
+</nav>
+
+<section id="view-dashboard" class="active">
+  <div class="stats" id="stats"></div>
+  <div class="ai-panel" id="aiPanel"></div>
+  <div class="charts">
+    <div class="chart-card"><h2>Distribución por edad</h2><div class="chart-wrap"><canvas id="chartEdad"></canvas></div></div>
+    <div class="chart-card"><h2>Distribución por género</h2><div class="chart-wrap"><canvas id="chartGenero"></canvas></div></div>
+    <div class="chart-card"><h2>Ejes temáticos</h2><div class="chart-wrap"><canvas id="chartEje"></canvas></div></div>
+    <div class="chart-card"><h2>Colegios</h2><div class="chart-wrap"><canvas id="chartColegio"></canvas></div></div>
+    <div class="chart-card"><h2>Barrios / ciudades</h2><div class="chart-wrap"><canvas id="chartBarrio"></canvas></div></div>
+  </div>
+  <div class="table-wrap" style="margin-top:20px">
+    <h2>Participantes</h2>
+    <table id="tablaResultados">
+      <thead><tr><th>ID</th><th>Edad</th><th>Género</th><th>Colegio</th><th>Barrio</th><th>Ejes</th><th>Interpretación</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</section>
+
+<section id="view-galeria">
+  <div class="filters">
+    <select id="filterEje">
+      <option value="all">Todos los ejes</option>
+    </select>
+    <select id="filterGenero">
+      <option value="all">Todos los géneros</option>
+      <option value="Femenino">Femenino</option>
+      <option value="Masculino">Masculino</option>
+      <option value="No binario">No binario</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <input type="text" id="filterSearch" placeholder="Buscar por barrio o colegio...">
+  </div>
+  <div class="gallery" id="gallery"></div>
+</section>
+
+<section id="view-subir">
+  <div class="upload-wrap">
+    <h2>Subí tu dibujo</h2>
+    <p>Foto o escaneo del formulario + dibujo en JPG (máx. 10 MB). La IA extrae los datos y lo agrega a la galería automáticamente.</p>
+    <form id="uploadForm">
+      <div class="drop-zone" id="dropZone">
+        <p>Arrastrá el JPG acá o <button type="button" class="link-btn" id="chooseBtn">elegí un archivo</button></p>
+        <input type="file" id="fileInput" accept="image/jpeg,.jpg,.jpeg" hidden>
+      </div>
+      <div class="upload-preview" id="uploadPreview"></div>
+      <label class="upload-field">Colegio / sede (opcional)
+        <input type="text" id="schoolInput" placeholder="ej: santa_ana" maxlength="40">
+      </label>
+      <div class="upload-progress" id="uploadProgress"><span></span></div>
+      <button type="submit" class="upload-btn" id="submitBtn" disabled>Subir y procesar</button>
+      <div class="upload-status" id="uploadStatus"></div>
+    </form>
+  </div>
+</section>
+
+<footer>Proyecto Post-Cronos · Córdoba, Argentina · 2026 · Datos generados desde BigQuery</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="data.js"></script>
+<script src="resumen_ia.js"></script>
+<script>
+let DATA = window.DATA || [];
+const RESUMEN = window.RESUMEN || null;
+const API_PARAM = new URLSearchParams(location.search).get('api');
+const API_BASE = (API_PARAM || window.POST_CRONOS_API || '').replace(/\/$/, '');
+
+function esc(s){return (s==null?'':String(s)).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderResumen(){
+  const panel=document.getElementById('aiPanel');
+  if(!RESUMEN){panel.innerHTML='<div class="ai-general">Análisis IA no disponible. Ejecutá <code>.venv\\Scripts\\python analisis_tendencias.py</code> para generarlo.</div>';return;}
+  const ejemplos=(t)=>(t.ejemplos&&t.ejemplos.length)?`<div class="ai-examples">${t.ejemplos.map(e=>`<span class="ai-example">${esc(e)}</span>`).join('')}</div>`:'';
+  const trends=(RESUMEN.tendencias||[]).map(t=>`
+    <div class="ai-trend"><h4>${esc(t.tema)}</h4><p>${esc(t.detalle)}</p>${ejemplos(t)}</div>
+  `).join('');
+  const insights=Object.entries(RESUMEN.insight_por_eje||{})
+    .filter(([,v])=>v)
+    .map(([k,v])=>`<div class="ai-insight"><strong>${esc(k)}</strong><span>${esc(v)}</span></div>`).join('');
+  const reco=(RESUMEN.recomendaciones||[]).map(r=>`<li>${esc(r)}</li>`).join('');
+  panel.innerHTML=`
+    <h2>Tendencias 2060 <span class="ai-badge">análisis con IA</span></h2>
+    <p class="ai-general">${esc(RESUMEN.resumen_general||'')}</p>
+    ${trends?`<div class="ai-sub">Tendencias detectadas</div><div class="ai-trends">${trends}</div>`:''}
+    ${insights?`<div class="ai-sub">Por eje temático</div><div class="ai-insights">${insights}</div>`:''}
+    ${reco?`<div class="ai-sub">Recomendaciones</div><ul class="ai-reco">${reco}</ul>`:''}
+  `;
+}
+
+function switchView(v){
+  document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===v));
+  document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('view-'+v).classList.add('active');
+  if(v==='dashboard') renderDashboard();
+  if(v==='galeria') renderGallery();
+}
+
+function countValues(rows, fn){
+  const m=new Map();
+  rows.forEach(r=>{
+    const vals=fn(r);
+    (Array.isArray(vals)?vals:[vals]).forEach(v=>{
+      if(v==null) return;
+      const arr=typeof v==='string'?v.split(',').map(s=>s.trim()).filter(Boolean):[v];
+      arr.forEach(x=>m.set(x,(m.get(x)||0)+1));
+    });
+  });
+  return [...m.entries()].sort((a,b)=>b[1]-a[1]);
+}
+
+const PALETTE=['#6ec1e4','#6ec1e4','#6ec1e4','#6ec1e4','#6ec1e4','#6ec1e4','#6ec1e4','#6ec1e4'];
+
+function makeChart(id,type,labels,data,opts){
+  const ctx=document.getElementById(id);
+  if(!ctx) return;
+  const colors=labels.map((_,i)=>PALETTE[i%PALETTE.length]);
+  const conf={
+    type,
+    data:{labels,datasets:[{
+      label:'Cantidad',
+      data,
+      backgroundColor:type==='bar'?colors:colors,
+      borderColor:colors,
+      borderWidth:1,
+      borderRadius:6
+    }]},
+    options:Object.assign({
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:type==='doughnut',labels:{color:'#9da5ae'}}
+      },
+      scales: type==='bar' ? {
+        x:{ticks:{color:'#9da5ae'},grid:{color:'rgba(255,255,255,.06)'}},
+        y:{beginAtZero:true,ticks:{color:'#9da5ae',precision:0},grid:{color:'rgba(255,255,255,.06)'}}
+      } : {}
+    },opts||{})
+  };
+  new Chart(ctx,conf);
+}
+
+function renderDashboard(){
+  // Stats
+  const total=DATA.length;
+  const conDibujo=DATA.filter(d=>d.img).length;
+  const ejes=new Set(DATA.flatMap(d=>d.eje?d.eje.split(',').map(s=>s.trim()):[])).size;
+  const colegios=new Set(DATA.map(d=>d.colegio).filter(Boolean)).size;
+  const edades=DATA.map(d=>d.edad).filter(n=>typeof n==='number');
+  const prom=edades.length?(edades.reduce((a,b)=>a+b,0)/edades.length).toFixed(1):'—';
+  document.getElementById('stats').innerHTML=`
+    <div class="stat-card"><h3>${total}</h3><p>Participantes</p></div>
+    <div class="stat-card"><h3>${conDibujo}</h3><p>Con dibujo</p></div>
+    <div class="stat-card"><h3>${ejes}</h3><p>Ejes temáticos</p></div>
+    <div class="stat-card"><h3>${colegios}</h3><p>Colegios</p></div>
+    <div class="stat-card"><h3>${prom}</h3><p>Edad promedio</p></div>
+  `;
+
+  // Charts (destruir previos si existen)
+  ['chartEdad','chartGenero','chartEje','chartColegio','chartBarrio'].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el&&el._chart) el._chart.destroy();
+  });
+
+  const edadesCount=countValues(DATA,d=>[d.edad]);
+  makeChart('chartEdad','bar',edadesCount.map(e=>e[0]),edadesCount.map(e=>e[1]));
+
+  const generos=countValues(DATA,d=>[d.genero]);
+  makeChart('chartGenero','doughnut',generos.map(e=>e[0]),generos.map(e=>e[1]));
+
+  const ejesCount=countValues(DATA,d=>[d.eje]);
+  makeChart('chartEje','bar',ejesCount.map(e=>e[0]),ejesCount.map(e=>e[1]));
+
+  const colegiosCount=countValues(DATA,d=>[d.colegio]);
+  makeChart('chartColegio','bar',colegiosCount.map(e=>e[0]),colegiosCount.map(e=>e[1]));
+
+  const barrios=countValues(DATA,d=>[d.ciudad_barrio]);
+  makeChart('chartBarrio','bar',barrios.map(e=>e[0]),barrios.map(e=>e[1]));
+
+  // Table
+  const tb=document.querySelector('#tablaResultados tbody');
+  tb.innerHTML=DATA.map(d=>`
+    <tr>
+      <td>${d.id||''}</td>
+      <td>${d.edad??''}</td>
+      <td>${d.genero||''}</td>
+      <td>${d.colegio||''}</td>
+      <td>${d.ciudad_barrio||''}</td>
+      <td>${d.eje||''}</td>
+      <td title="${(d.interp||'').replace(/"/g,'&quot;')}">${(d.interp||'—').slice(0,90)}${(d.interp||'').length>90?'…':''}</td>
+    </tr>
+  `).join('');
+}
+
+// ---- Galería ----
+function populateFilters(){
+  const filterEje=document.getElementById('filterEje');
+  filterEje.querySelectorAll('option:not([value="all"])').forEach(o=>o.remove());
+  const ejes=[...new Set(DATA.flatMap(d=>d.eje?d.eje.split(',').map(s=>s.trim()).filter(Boolean):[]))].sort();
+  ejes.forEach(e=>{const o=document.createElement('option');o.value=e;o.textContent=e;filterEje.appendChild(o)});
+}
+
+function renderGallery(){
+  const eje=document.getElementById('filterEje').value;
+  const genero=document.getElementById('filterGenero').value;
+  const q=document.getElementById('filterSearch').value.toLowerCase();
+  const filtered=DATA.filter(d=>(eje==='all'||(d.eje&&d.eje.split(',').map(s=>s.trim()).includes(eje)))&&(genero==='all'||d.genero===genero)&&(!q||(d.ciudad_barrio&&d.ciudad_barrio.toLowerCase().includes(q))||(d.colegio&&d.colegio.toLowerCase().includes(q))));
+  const g=document.getElementById('gallery');
+  if(!filtered.length){g.innerHTML='<div class="no-results">Sin resultados</div>';return}
+  g.innerHTML=filtered.map(d=>`
+    <div class="card">
+      <img class="card-img" src="${d.img}" alt="Dibujo 2060" loading="lazy">
+      <div class="card-body">
+        <div class="card-header">
+          <div class="card-name">${d.colegio||'Participante'}</div>
+        </div>
+        <div class="card-badges">
+          ${d.eje?`<span class="badge badge-eje">${d.eje}</span>`:''}
+          ${d.genero?`<span class="badge badge-genero${d.genero==='Masculino'?' masc':''}">${d.genero}</span>`:''}
+          ${d.edad!=null?`<span class="badge badge-edad">${d.edad} años</span>`:''}
+          ${d.ciudad_barrio?`<span class="badge badge-lugar">${d.ciudad_barrio}</span>`:''}
+          ${d.colegio?`<span class="badge badge-colegio">${d.colegio}</span>`:''}
+        </div>
+        ${d.interp?`<div class="card-desc"><strong>Interpretación:</strong> ${d.interp}</div>`:''}
+        ${d.diseno?`<div class="card-interp"><strong>Diseño final:</strong> ${d.diseno.replace(/\n/g,' ')}</div>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+
+document.getElementById('filterEje').addEventListener('change',renderGallery);
+document.getElementById('filterGenero').addEventListener('change',renderGallery);
+document.getElementById('filterSearch').addEventListener('input',renderGallery);
+
+function setUploadStatus(msg,cls){
+  const el=document.getElementById('uploadStatus');
+  el.className='upload-status'+(cls?' '+cls:'');
+  el.innerHTML=msg;
+}
+
+function setupUpload(){
+  const dropZone=document.getElementById('dropZone');
+  const fileInput=document.getElementById('fileInput');
+  const chooseBtn=document.getElementById('chooseBtn');
+  const preview=document.getElementById('uploadPreview');
+  const form=document.getElementById('uploadForm');
+  const schoolInput=document.getElementById('schoolInput');
+  const submitBtn=document.getElementById('submitBtn');
+  const progress=document.getElementById('uploadProgress');
+  const bar=progress.querySelector('span');
+  let selectedFile=null;
+
+  if(!API_BASE){
+    setUploadStatus('Subida no configurada todavía: falta la URL del backend (window.POST_CRONOS_API).','err');
+    submitBtn.disabled=true;
+  }
+
+  function pick(file){
+    if(!file) return;
+    const okType=/^image\/jpe?g$/i.test(file.type)||/\.jpe?g$/i.test(file.name);
+    if(!okType){ setUploadStatus('Solo se aceptan archivos JPG/JPEG.','err'); return; }
+    if(file.size>10*1024*1024){ setUploadStatus('El archivo supera el máximo de 10 MB.','err'); return; }
+    selectedFile=file;
+    preview.innerHTML='';
+    const img=document.createElement('img');
+    img.alt='Vista previa';
+    img.src=URL.createObjectURL(file);
+    img.onload=()=>URL.revokeObjectURL(img.src);
+    preview.appendChild(img);
+    setUploadStatus('');
+    submitBtn.disabled=!API_BASE;
+  }
+
+  chooseBtn.addEventListener('click',()=>fileInput.click());
+  dropZone.addEventListener('click',(e)=>{ if(e.target!==chooseBtn) fileInput.click(); });
+  fileInput.addEventListener('change',()=>pick(fileInput.files[0]));
+  ['dragenter','dragover'].forEach(ev=>dropZone.addEventListener(ev,(e)=>{e.preventDefault();dropZone.classList.add('drag')}));
+  ['dragleave','drop'].forEach(ev=>dropZone.addEventListener(ev,(e)=>{e.preventDefault();dropZone.classList.remove('drag')}));
+  dropZone.addEventListener('drop',(e)=>pick(e.dataTransfer.files[0]));
+
+  function post(file,school,onProgress){
+    return new Promise((resolve,reject)=>{
+      const fd=new FormData();
+      fd.append('file',file);
+      fd.append('school',school||'');
+      const xhr=new XMLHttpRequest();
+      xhr.open('POST',API_BASE+'/api/upload');
+      xhr.upload.onprogress=(e)=>{ if(e.lengthComputable) onProgress(Math.round(e.loaded/e.total*100)); };
+      xhr.onload=()=>{
+        let body={};
+        try{ body=JSON.parse(xhr.responseText||'{}'); }catch{}
+        if(xhr.status>=200&&xhr.status<300) resolve(body);
+        else reject(new Error(body.detail||('Error HTTP '+xhr.status)));
+      };
+      xhr.onerror=()=>reject(new Error('No se pudo conectar con el servidor.'));
+      xhr.send(fd);
+    });
+  }
+
+  form.addEventListener('submit',async(e)=>{
+    e.preventDefault();
+    if(!selectedFile){ setUploadStatus('Elegí un archivo JPG primero.','err'); return; }
+    if(!API_BASE){ setUploadStatus('Falta configurar la URL del backend.','err'); return; }
+    submitBtn.disabled=true;
+    progress.classList.add('show');
+    bar.style.width='0%';
+    setUploadStatus('Subiendo imagen...');
+    try{
+      const result=await post(selectedFile,schoolInput.value.trim(),(pct)=>{
+        bar.style.width=pct+'%';
+        if(pct>=100) setUploadStatus('Procesando con IA... puede tardar unos segundos.');
+      });
+      if(result.record){
+        DATA.push(result.record);
+        populateFilters();
+        renderDashboard();
+        renderGallery();
+      }
+      setUploadStatus('¡Listo! El dibujo se agregó a la <a href="#" onclick="switchView(\'galeria\');return false;">galería</a>.','ok');
+      selectedFile=null;
+      fileInput.value='';
+      preview.innerHTML='';
+      schoolInput.value='';
+    }catch(err){
+      setUploadStatus(esc(err.message||'Error al subir el archivo.'),'err');
+    }finally{
+      submitBtn.disabled=!selectedFile||!API_BASE;
+      bar.style.width='0%';
+      setTimeout(()=>progress.classList.remove('show'),600);
+    }
+  });
+}
+
+async function loadLiveData(){
+  if(!API_BASE) return;
+  try{
+    const res=await fetch(API_BASE+'/api/data',{cache:'no-store'});
+    if(!res.ok) return;
+    const live=await res.json();
+    if(Array.isArray(live)&&live.length) DATA=live;
+  }catch(e){}
+}
+
+async function init(){
+  await loadLiveData();
+  populateFilters();
+  renderDashboard();
+  renderResumen();
+  renderGallery();
+  setupUpload();
+}
+
+init();
+</script>
+</body>
+</html>

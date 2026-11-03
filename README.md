@@ -438,8 +438,28 @@ gcloud eventarc triggers create post-cronos-gcs-finalize \
 
 ---
 
-## 13. Referencias
+## 13. Código en este repositorio
+
+- `index.html`, `data.js`, `resumen_ia.js`, `logo.png`: frontend.
+- `backend/`: API base (v1, síncrona) que se refactoriza a los servicios `api` y `processor` de la sección 3.
+- `scripts/legacy/`: scripts de procesamiento y migración de la v1.
+- `docs/post-cronos-infraestructura.md`: documento técnico de la v1.
+
+El próximo paso de código es reemplazar `backend/main.py` por:
+
+- `backend/api/`: endpoints públicos (`/api/data`, `/api/img`, `/api/upload-url`, `/api/status`).
+- `backend/processor/`: consumidor de eventos de GCS (Eventarc) con Gemini + BigQuery.
+- `backend/common.py`: configuración, prompt, idempotencia y acceso a GCP.
+
+## 14. Guías para frontend
+
+- `docs/integracion-frontend.md` — contrato técnico completo (endpoints, JSON, errores, CORS).
+- `docs/instructivo-frontend-simple.md` — paso a paso para alguien con poca experiencia.
+- `docs/ejemplo-subida.html` — ejemplo mínimo de subida con progreso y polling.
+
+## 15. Referencias
 
 - Repo v1: https://github.com/post-cronos/post-cronos
+- Repo v2: https://github.com/post-cronos/post-cronos-v2
 - Sitio v1: https://post-cronos.github.io/post-cronos/
-- Documento técnico v1: `post-cronos-infraestructura.md` (repo v1)
+- Documento técnico v1: `docs/post-cronos-infraestructura.md`
